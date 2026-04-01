@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+// 2. Variables CSS Nativas (Para temas claros/oscuros si los necesitas luego)
+@layer base {
+    :root {
+        --bg-color: #ffffff;
+        --text-color: #0f172a; // slate-900
+    }
+
+    .dark {
+        --bg-color: #0f172a;
+        --text-color: #f8fafc; // slate-50
+    }
+
+    // Comportamiento base del documento
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        @apply transition-colors duration-300 ease-in-out;
+    }
+}
+
+// 3. Clases Utilitarias Globales (Personalizadas)
+@layer utilities {
+
+    /* Scrollbar personalizada y elegante (Estilo Apple/Senior) */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-400 dark:bg-gray-500;
+    }
+
+    /* Efecto de "cristal" para navbars o modales */
+    .glass-effect {
+        @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-slate-700/50;
+    }
+}
