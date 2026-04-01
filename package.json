@@ -11,7 +11,8 @@
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
     "test:unit": "vitest --project unit",
-    "test:nuxt": "vitest --project nuxt"
+    "test:nuxt": "vitest --project nuxt",
+    "prepare": "husky"
   },
   "dependencies": {
     "@material-tailwind/html": "^3.0.0-beta.7",
@@ -41,6 +42,8 @@
     "@nuxt/ui": "^4.6.0",
     "@vitest/coverage-v8": "^4.1.2",
     "@vue/test-utils": "^2.4.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "sass": "^1.98.0",
     "tailwindcss": "^3.4.19",
     "vitest": "^4.1.2"
