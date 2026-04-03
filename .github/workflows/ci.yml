@@ -1,0 +1,55 @@
+name: LinkTicNuxt CI Pipeline
+
+# 1. El pipeline se ejecutará cuando hagas push a la rama principal
+# o cuando crees un Pull Request.
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-check:
+    name: Build & Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Descargar tu código en el servidor de GitHub
+      - name: 📥 Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # Paso 2: Preparar el entorno con Node.js 20 (Ideal para Nuxt 3)
+      - name: ⚙️ Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # Habilita la caché para que las próximas ejecuciones sean rapidísimas
+
+      # Paso 3: Instalar dependencias exactamente como están en tu package-lock.json
+      - name: 📦 Instalar dependencias
+        run: npm ci
+
+      # Paso 4: (Opcional pero recomendado) Como tienes el módulo @nuxt/eslint instalado,
+      # podemos revisar que el código esté limpio. Si no usas eslint, puedes borrar este paso.
+      - name: 🧹 Revisar Linting (ESLint)
+        run: npm run lint
+        continue-on-error: true # Permite que el pipeline siga aunque haya advertencias de formato
+
+      # Paso 5: Generar los tipos de Nuxt y hacer Type Checking
+      # Esto verifica que todos tus DTOs y modelos de TypeScript estén correctos.
+      - name: 🏗️ Revisión de Tipos (TypeScript)
+        run: npx nuxi typecheck
+
+      # Paso 6: LA PRUEBA DE FUEGO 🔥
+      # Esto intentará compilar la app. Si hay algún error oculto de Vite, 
+      # librerías incompatibles (como pluralize) o errores SSR, el pipeline fallará aquí.
+      - name: 🚀 Construir aplicación (Nuxt Build)
+        run: npm run build
+
+      # Paso 7: Guardar el resultado para que puedas descargarlo o desplegarlo después
+      - name: 💾 Guardar Artefacto de Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuxt-build-output
+          path: .output/
+          retention-days: 7 # Guarda el archivo compilado por 7 días en GitHub
