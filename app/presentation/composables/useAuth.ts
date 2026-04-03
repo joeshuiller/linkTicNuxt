@@ -18,7 +18,7 @@ export const useAuth = () => {
 
             // Opcional: Mostrar un Toast de éxito si usas Nuxt UI
             const toast = useToast();
-            toast.notify({ title: '¡Registro exitoso!', message: `Bienvenido ${newUser.name}` });
+            toast.add({ title: '¡Registro exitoso!', description: `Bienvenido ${newUser.name}` });
 
             return newUser;
         } catch (err: any) {
