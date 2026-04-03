@@ -18,8 +18,13 @@ export const useAuth = () => {
 
             // Opcional: Mostrar un Toast de éxito si usas Nuxt UI
             const toast = useToast();
-            toast.add({ title: '¡Registro exitoso!', description: `Bienvenido ${newUser.name}` });
-
+            if (toast) {
+                toast.add({
+                    title: '¡Registro exitoso!',
+                    description: `${newUser.name} se ha registrado correctamente.`,
+                    color: 'success' // Opcional: le da un toque verde de éxito
+                });
+            }
             return newUser;
         } catch (err: any) {
             error.value = err.message;
