@@ -177,7 +177,7 @@ const onSubmit = async () => {
   const result = schema.safeParse(state);
 
   if (!result.success) {
-    result.error.issues.forEach(issue => {
+    result.error.issues.forEach((issue: any) => {
       validationErrors.value[issue.path[0]] = issue.message;
     });
     return; 
