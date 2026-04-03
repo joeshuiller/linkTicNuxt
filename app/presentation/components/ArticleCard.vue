@@ -1,77 +1,58 @@
 <template>
   <div class="article-card">
-    <img :src="images[0]" :alt="title" class="w-full h-48 object-cover rounded mb-4">
-    <h2 class="text-xl font-semibold mb-2">{{ title }}</h2>
-    <p class="text-gray-600 mb-4">{{ description }}</p>
-    <div class="flex justify-between items-center">
-        <span class="text-2xl font-bold text-green-600">${{ price }}</span>
-        <span class="text-sm text-gray-500">{{ category.name }}</span>
+    
+    <div>
+      <img 
+        :src="product.images[0] || 'https://via.placeholder.com/400'" 
+        :alt="product.title" 
+        class="w-full h-48 object-cover rounded-xl mb-4"
+      >
+      
+      <h2 class="text-xl font-bold mb-2 text-gray-900 line-clamp-1">{{ product.title }}</h2>
+      <p class="text-gray-600 mb-4 text-sm line-clamp-2">{{ product.description }}</p>
     </div>
-    <div class="actions">
-      <a class="btn">Ir al post</a>
+
+    <div class="mt-auto">
+      <div class="flex justify-between items-center mb-4">
+          <span class="text-2xl font-extrabold text-indigo-600">${{ product.price }}</span>
+          <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-md tracking-wide uppercase">
+            {{ product.category.name }}
+          </span>
+      </div>
+      
+      <div class="actions">
+        <button 
+          type="button"  @click="addToCart(product)"
+          class="w-full flex items-center justify-center py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          Agregar al carrito
+        </button>
+      </div>
     </div>        
+    
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ArticleCard',
-  props: {
-    slug: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    author: {
-      type: String,
-      default: '',
-    },
-    date: {
-      type: Date,
-      default: '',
-    },
-    category: {
-      type: Object,
-      default: '',
-    },
-    description: {
-      type: String,
-      default: '',
-    },
-    images: {
-      type: Array,
-      default: '',
-    },
-    price: {
-      type: Number,
-      default: '',  
-    },
-  }
-}
+<script setup lang="ts">
+import type { Product } from '~~/app/core/entities/Product';
+
+// 1. Usamos SOLO defineProps para registrar la propiedad que recibe el componente
+const props = defineProps<{ 
+  product: Product 
+}>(); 
+
+// 2. Traemos nuestra función del composable
+const { addToCart } = useCart();  
+
+// ELIMINADO: Todo el bloque "export default { ... }" ya que defineProps hace ese trabajo.
 </script>
 
 <style lang="scss" scoped>
 .article-card {
-  @apply block bg-white sm:border sm:rounded-lg p-4;
-  h2 {
-    @apply font-bold text-xl mb-2 mt-0;
-  }
-  figure {
-    img {
-      @apply w-full;
-    }
-  }
-  p {
-    @apply my-4 font-serif;
-  }
-  div.actions {
-    @apply flex gap-2;
-    .btn {
-      @apply w-full text-center border rounded-full px-8 py-2 bg-gray-200 hover:bg-gray-300;
-    }
-  }
+  /* Hacemos que la tarjeta sea un flex column para empujar el botón siempre abajo */
+  @apply flex flex-col h-full bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200;
 }
 </style>

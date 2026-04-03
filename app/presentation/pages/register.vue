@@ -1,109 +1,157 @@
 <template>
-    <div class="container">
-                <div class="max-w-md mx-auto mt-10 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm overflow-hidden">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
     
-                    <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800">
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Crear Cuenta</h1>
-                    <p class="text-sm text-gray-500 mt-1">Únete a nuestra plataforma de e-commerce.</p>
-                    </div>
+    <div class="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all hover:scale-[1.01]">
+      
+      <div class="px-8 py-10 text-center bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-800 border-b border-gray-100 dark:border-gray-700">
+        <div class="mx-auto w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mb-4 shadow-md">
+           <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+           </svg>
+        </div>
+        <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Crear Cuenta</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Únete a nuestra plataforma y comienza a explorar.</p>
+      </div>
 
-                    <form @submit.prevent="onSubmit" class="p-6 space-y-5">
-                    
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Nombre completo
-                        </label>
-                        <input 
-                        id="name" 
-                        v-model="state.name" 
-                        type="text" 
-                        placeholder="Ej. Nicolas" 
-                        class="block w-full px-3 py-2 bg-white dark:bg-gray-950 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm text-gray-900 dark:text-white transition-colors"
-                        :class="validationErrors.name ? 'border-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-700 focus:border-blue-500'"
-                        />
-                        <p v-if="validationErrors.name" class="mt-1 text-sm text-red-500">{{ validationErrors.name }}</p>
-                    </div>
+      <form @submit.prevent="onSubmit" class="p-8 space-y-6">
+        
+        <div>
+          <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Nombre completo
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <input 
+              id="name" 
+              v-model="state.name" 
+              type="text" 
+              placeholder="Ej. Juan Pérez" 
+              class="block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border rounded-xl focus:outline-none focus:ring-2 sm:text-sm text-gray-900 dark:text-white transition-all duration-200"
+              :class="validationErrors.name ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:focus:ring-red-800' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-100 dark:focus:ring-indigo-900'"
+            />
+          </div>
+          <p v-if="validationErrors.name" class="mt-2 text-sm text-red-500 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+            {{ validationErrors.name }}
+          </p>
+        </div>
 
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Correo Electrónico
-                        </label>
-                        <input 
-                        id="email" 
-                        v-model="state.email" 
-                        type="email" 
-                        placeholder="nico@gmail.com" 
-                        class="block w-full px-3 py-2 bg-white dark:bg-gray-950 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm text-gray-900 dark:text-white transition-colors"
-                        :class="validationErrors.email ? 'border-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-700 focus:border-blue-500'"
-                        />
-                        <p v-if="validationErrors.email" class="mt-1 text-sm text-red-500">{{ validationErrors.email }}</p>
-                    </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Correo Electrónico
+          </label>
+          <div class="relative">
+             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <input 
+              id="email" 
+              v-model="state.email" 
+              type="email" 
+              placeholder="tu@correo.com" 
+              class="block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border rounded-xl focus:outline-none focus:ring-2 sm:text-sm text-gray-900 dark:text-white transition-all duration-200"
+              :class="validationErrors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:focus:ring-red-800' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-100 dark:focus:ring-indigo-900'"
+            />
+          </div>
+          <p v-if="validationErrors.email" class="mt-2 text-sm text-red-500 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+            {{ validationErrors.email }}
+          </p>
+        </div>
 
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Contraseña
-                        </label>
-                        <input 
-                        id="password" 
-                        v-model="state.password" 
-                        type="password" 
-                        placeholder="••••••••" 
-                        class="block w-full px-3 py-2 bg-white dark:bg-gray-950 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm text-gray-900 dark:text-white transition-colors"
-                        :class="validationErrors.password ? 'border-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-700 focus:border-blue-500'"
-                        />
-                        <p v-if="validationErrors.password" class="mt-1 text-sm text-red-500">{{ validationErrors.password }}</p>
-                    </div>
+        <div>
+          <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Contraseña
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <input 
+              id="password" 
+              v-model="state.password" 
+              type="password" 
+              placeholder="••••••••" 
+              class="block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border rounded-xl focus:outline-none focus:ring-2 sm:text-sm text-gray-900 dark:text-white transition-all duration-200"
+              :class="validationErrors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:focus:ring-red-800' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-100 dark:focus:ring-indigo-900'"
+            />
+          </div>
+          <p v-if="validationErrors.password" class="mt-2 text-sm text-red-500 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+            {{ validationErrors.password }}
+          </p>
+        </div>
 
-                    <div>
-                        <label for="avatar" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        URL del Avatar
-                        </label>
-                        <input 
-                        id="avatar" 
-                        v-model="state.avatar" 
-                        type="text" 
-                        placeholder="https://picsum.photos/800" 
-                        class="block w-full px-3 py-2 bg-white dark:bg-gray-950 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm text-gray-900 dark:text-white transition-colors"
-                        :class="validationErrors.avatar ? 'border-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-700 focus:border-blue-500'"
-                        />
-                        <p v-if="validationErrors.avatar" class="mt-1 text-sm text-red-500">{{ validationErrors.avatar }}</p>
-                    </div>
+        <div>
+          <label for="avatar" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            URL del Avatar <span class="text-gray-400 font-normal">(Opcional)</span>
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <input 
+              id="avatar" 
+              v-model="state.avatar" 
+              type="text" 
+              placeholder="https://picsum.photos/200" 
+              class="block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-900 border rounded-xl focus:outline-none focus:ring-2 sm:text-sm text-gray-900 dark:text-white transition-all duration-200"
+              :class="validationErrors.avatar ? 'border-red-300 focus:border-red-500 focus:ring-red-200 dark:focus:ring-red-800' : 'border-gray-200 dark:border-gray-700 focus:border-indigo-500 focus:ring-indigo-100 dark:focus:ring-indigo-900'"
+            />
+          </div>
+          <p v-if="validationErrors.avatar" class="mt-2 text-sm text-red-500 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+            {{ validationErrors.avatar }}
+          </p>
+        </div>
 
-                    <div v-if="error" class="p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-md flex items-start">
-                        <svg class="h-5 w-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        </svg>
-                        <p class="text-sm font-medium text-red-800 dark:text-red-300">{{ error }}</p>
-                    </div>
+        <div v-if="error" class="p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded-r-md flex items-start animate-pulse">
+          <svg class="h-5 w-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-sm font-medium text-red-800 dark:text-red-300">{{ error }}</p>
+        </div>
 
-                    <button 
-                        type="submit" 
-                        :disabled="isLoading"
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                    >
-                        <svg v-if="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        {{ isLoading ? 'Procesando...' : 'Registrarse' }}
-                    </button>
-                    
-                    </form>
-                </div>
-                <button
-                type="button"
-                data-ripple-light="true"
-                class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
-                >
-                Button
-                </button>
+        <button 
+          type="submit" 
+          :disabled="isLoading"
+          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 transform hover:-translate-y-0.5"
+        >
+          <svg v-if="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ isLoading ? 'Creando cuenta...' : 'Registrarse' }}
+        </button>
+        
+        <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
+          ¿Ya tienes una cuenta? 
+          <NuxtLink to="/login" class="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 transition-colors">
+            Inicia sesión
+          </NuxtLink>
+        </p>
+
+      </form>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { z } from 'zod';
+import type { CreateUserDTO } from '../../infrastructure/Dtos/CreateUserDTO';
 
+// Asumo que tienes este composable configurado
 const { registerUser, isLoading, error } = useAuth();
 const router = useRouter();
 
@@ -114,7 +162,6 @@ const state = reactive<CreateUserDTO>({
   avatar: 'https://picsum.photos/800'
 });
 
-// Estado para almacenar los errores de validación del formulario
 const validationErrors = ref<Record<string, string>>({});
 
 const schema = z.object({
@@ -125,22 +172,17 @@ const schema = z.object({
 });
 
 const onSubmit = async () => {
-  // 1. Limpiamos los errores previos
   validationErrors.value = {};
 
-  // 2. Ejecutamos la validación de Zod manualmente (safeParse no lanza excepciones)
   const result = schema.safeParse(state);
 
-  // 3. Si falla, mapeamos los errores a nuestro objeto reactivo
   if (!result.success) {
     result.error.issues.forEach(issue => {
-      // Tomamos el primer path (ej. 'email') y le asignamos el mensaje
       validationErrors.value[issue.path[0]] = issue.message;
     });
-    return; // Detenemos la ejecución aquí
+    return; 
   }
 
-  // 4. Si todo es válido (result.data), llamamos al Caso de Uso
   const user = await registerUser(result.data);
 
   if (user) {
@@ -148,11 +190,3 @@ const onSubmit = async () => {
   }
 };
 </script>
-<style lang="scss">
-.container .content {
-  @apply flex flex-col justify-center items-center sm:p-2 md:p-4 lg:p-8 xl:p-16;
-  main {
-    @apply max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
-  }
-}
-</style>

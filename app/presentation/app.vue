@@ -6,6 +6,8 @@
   })
 </script>
 <template>
-  <NuxtRouteAnnouncer />
+  <NavBar />
   <NuxtPage />
+  <NuxtRouteAnnouncer />
+  <FootBar />
 </template>

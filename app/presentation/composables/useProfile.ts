@@ -28,10 +28,14 @@ export const useProfile = () => {
         }
     };
 
-    // ... (tus funciones loginUser y logout)
+    const logout = () => {
+        token.value = null; // Borramos la cookie
+    };
 
     return {
-        // ...
-        fetchProfile
+        user,
+        isLoading,
+        fetchProfile,
+        logout
     };
 };
