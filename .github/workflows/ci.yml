@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-check:
-    name: Build & Type Check
+    name: Build, Test & Type Check
     runs-on: ubuntu-latest
 
     steps:
@@ -18,38 +18,39 @@ jobs:
       - name: 📥 Checkout del repositorio
         uses: actions/checkout@v4
 
-      # Paso 2: Preparar el entorno con Node.js 20 (Ideal para Nuxt 3)
+      # Paso 2: Preparar el entorno con Node.js 22 (Corregido para tu proyecto)
       - name: ⚙️ Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm' # Habilita la caché para que las próximas ejecuciones sean rapidísimas
+          node-version: '22'
+          cache: 'npm'
 
-      # Paso 3: Instalar dependencias exactamente como están en tu package-lock.json
+      # Paso 3: Instalar dependencias
       - name: 📦 Instalar dependencias
         run: npm install
 
-      # Paso 4: (Opcional pero recomendado) Como tienes el módulo @nuxt/eslint instalado,
-      # podemos revisar que el código esté limpio. Si no usas eslint, puedes borrar este paso.
+      # Paso 4: Revisar Linting (ESLint)
       - name: 🧹 Revisar Linting (ESLint)
         run: npm run lint
-        continue-on-error: true # Permite que el pipeline siga aunque haya advertencias de formato
+        continue-on-error: true
 
       # Paso 5: Generar los tipos de Nuxt y hacer Type Checking
-      # Esto verifica que todos tus DTOs y modelos de TypeScript estén correctos.
       - name: 🏗️ Revisión de Tipos (TypeScript)
         run: npx nuxi typecheck
 
-      # Paso 6: LA PRUEBA DE FUEGO 🔥
-      # Esto intentará compilar la app. Si hay algún error oculto de Vite, 
-      # librerías incompatibles (como pluralize) o errores SSR, el pipeline fallará aquí.
+      # Paso 6: LA PRUEBA DE LOS TESTS 🧪
+      # Aquí ejecutamos Vitest en modo "run" (una sola pasada, sin quedarse escuchando cambios)
+      - name: 🧪 Ejecutar Tests Unitarios (Vitest)
+        run: npx vitest run
+
+      # Paso 7: LA PRUEBA DE FUEGO 🔥 (Construir la app)
       - name: 🚀 Construir aplicación (Nuxt Build)
         run: npm run build
 
-      # Paso 7: Guardar el resultado para que puedas descargarlo o desplegarlo después
+      # Paso 8: Guardar el resultado
       - name: 💾 Guardar Artefacto de Build
         uses: actions/upload-artifact@v4
         with:
           name: nuxt-build-output
           path: .output/
-          retention-days: 7 # Guarda el archivo compilado por 7 días en GitHub
+          retention-days: 7
