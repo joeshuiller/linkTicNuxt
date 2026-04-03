@@ -1,110 +1,137 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, test, expect, vi, beforeEach, beforeAll, afterAll } from 'vitest';
+// Importamos 'ref' directamente de Vue para inyectarlo en el entorno de Node
 import { ref } from 'vue';
-// Ajusta la ruta de importación de tu composable
-import { useAuth } from '../../../../../app/presentation/composables/useAuth';
 import type { CreateUserDTO } from '../../../../../app/infrastructure/Dtos/CreateUserDTO';
-import type { User } from '../../../../../app/core/entities/User';
 
-// 1. Mock de la reactividad de Vue (ref)
-// Como Nuxt auto-importa 'ref', en los tests a veces necesitamos declararlo globalmente
-vi.stubGlobal('ref', ref);
-
-// 2. Mock del UseCase y useNuxtApp
-const mockExecute = vi.fn();
-const mockUseNuxtApp = vi.fn(() => ({
-    $createUserUseCase: {
-        execute: mockExecute
-    }
-}));
-vi.stubGlobal('useNuxtApp', mockUseNuxtApp);
-
-// 3. Mock del Toast
-const mockNotify = vi.fn();
-const mockUseToast = vi.fn(() => ({
-    notify: mockNotify
-}));
-vi.stubGlobal('useToast', mockUseToast);
-
+// 1. Preparamos las funciones espía (Mocks)
+const mockExecuteUseCase = vi.fn();
+const mockToastAdd = vi.fn();
 
 describe('useAuth Composable', () => {
-    const mockDto: CreateUserDTO = {
-        name: 'María',
-        email: 'maria@correo.com',
-        password: 'password123',
-        avatar: 'https://ejemplo.com/avatar.jpg'
-    };
+    let useAuth: any;
 
-    const mockUser: User = {
-        id: 1,
-        name: 'María',
-        email: 'maria@correo.com',
-        avatar: 'https://ejemplo.com/avatar.jpg',
-        role: 'customer'
-    };
+    beforeAll(async () => {
+        // 2. 🚨 INYECTAMOS LOS AUTO-IMPORTS DE NUXT/VUE GLOBALMENTE
+
+        // Inyectamos el 'ref' real de Vue para que la reactividad funcione en el test
+        vi.stubGlobal('ref', ref);
+
+        // Simulamos useNuxtApp para que devuelva nuestro UseCase mockeado
+        vi.stubGlobal('useNuxtApp', () => ({
+            $createUserUseCase: {
+                execute: mockExecuteUseCase
+            }
+        }));
+
+        // Simulamos el composable de notificaciones de Nuxt UI
+        vi.stubGlobal('useToast', () => ({
+            add: mockToastAdd
+        }));
+
+        // 3. IMPORTACIÓN DINÁMICA
+        // Ajusta la ruta para que apunte exactamente a tu archivo useAuth.ts
+        const module = await import('../../../../../app/presentation/composables/useAuth');
+        useAuth = module.useAuth;
+    });
 
     beforeEach(() => {
         vi.clearAllMocks();
     });
 
-    afterEach(() => {
-        vi.restoreAllMocks();
+    afterAll(() => {
+        vi.unstubAllGlobals();
     });
 
-    // TEST 1: El Camino Feliz (Registro exitoso)
-    it('debe registrar al usuario, actualizar el estado, mostrar el toast y devolver el usuario', async () => {
-        // Arrange: Simulamos que el Caso de Uso hace su trabajo con éxito
-        mockExecute.mockResolvedValue(mockUser);
+    // ==========================================
+    // TEST 1: El Camino Feliz
+    // ==========================================
+    test('debe registrar un usuario exitosamente, actualizar el estado y mostrar un toast', async () => {
+        // Arrange
+        const mockDto: CreateUserDTO = {
+            name: 'Carlos',
+            email: 'carlos@correo.com',
+            password: 'password123',
+            avatar: 'avatar.jpg'
+        };
 
-        // Inicializamos el composable
-        const { registerUser, currentUser, isLoading, error } = useAuth();
+        const mockCreatedUser = {
+            id: 1,
+            name: 'Carlos',
+            email: 'carlos@correo.com',
+            avatar: 'avatar.jpg',
+            role: 'customer'
+        };
+
+        // Le decimos al UseCase falso que responda con éxito
+        mockExecuteUseCase.mockResolvedValue(mockCreatedUser);
+
+        // Instanciamos el composable
+        const auth = useAuth();
 
         // Verificamos el estado inicial
-        expect(isLoading.value).toBe(false);
-        expect(error.value).toBeNull();
-        expect(currentUser.value).toBeNull();
-
-        // Act: Llamamos a la función
-        const result = await registerUser(mockDto);
-
-        // Assert: Verificamos los resultados
-        expect(mockExecute).toHaveBeenCalledTimes(1);
-        expect(mockExecute).toHaveBeenCalledWith(mockDto);
-
-        // Verificamos que se mostró la notificación
-        expect(mockNotify).toHaveBeenCalledTimes(1);
-        expect(mockNotify).toHaveBeenCalledWith({
-            title: '¡Registro exitoso!',
-            message: 'Bienvenido María'
-        });
-
-        // Verificamos que el estado final es correcto
-        expect(result).toEqual(mockUser);
-        expect(currentUser.value).toEqual(mockUser);
-        expect(isLoading.value).toBe(false); // Validamos que el bloque finally se ejecutó
-        expect(error.value).toBeNull();
-    });
-
-    // TEST 2: El Camino Triste (Falla el registro)
-    it('debe manejar el error, actualizar el estado de error y devolver null', async () => {
-        // Arrange: Simulamos que el Caso de Uso lanza un error (ej. correo duplicado)
-        const errorMessage = 'El correo ya está en uso';
-        mockExecute.mockRejectedValue(new Error(errorMessage));
-
-        const { registerUser, currentUser, isLoading, error } = useAuth();
+        expect(auth.isLoading.value).toBe(false);
+        expect(auth.currentUser.value).toBeNull();
 
         // Act
-        const result = await registerUser(mockDto);
+        const result = await auth.registerUser(mockDto);
 
         // Assert
-        expect(mockExecute).toHaveBeenCalledTimes(1);
+        expect(mockExecuteUseCase).toHaveBeenCalledTimes(1);
+        expect(mockExecuteUseCase).toHaveBeenCalledWith(mockDto);
 
-        // El Toast NO debe haberse llamado si hubo error
-        expect(mockNotify).not.toHaveBeenCalled();
+        // Verificamos que los estados reactivos se actualizaron
+        expect(auth.currentUser.value).toEqual(mockCreatedUser);
+        expect(auth.error.value).toBeNull();
+        expect(auth.isLoading.value).toBe(false); // Debe volver a false en el finally
 
-        // Verificamos el estado de reactividad (variables ref)
+        // Verificamos la notificación
+        expect(mockToastAdd).toHaveBeenCalledTimes(1);
+        expect(mockToastAdd).toHaveBeenCalledWith(expect.objectContaining({
+            title: '¡Registro exitoso!',
+            color: 'success'
+        }));
+
+        // Verificamos el retorno de la función
+        expect(result).toEqual(mockCreatedUser);
+    });
+
+    // ==========================================
+    // TEST 2: El Camino Triste (Error de API/Validación)
+    // ==========================================
+    test('debe capturar un error si falla el registro, actualizar el estado de error y no mostrar toast', async () => {
+        // Arrange
+        const mockDto: CreateUserDTO = {
+            name: 'Carlos',
+            email: 'correo-invalido', // Simulamos un dato malo
+            password: '123',
+            avatar: ''
+        };
+
+        const errorMessage = 'El correo ya está en uso.';
+        // Simulamos que el UseCase lanza una excepción (como lo haría si falla la API)
+        mockExecuteUseCase.mockRejectedValue(new Error(errorMessage));
+
+        const auth = useAuth();
+
+        // Act
+        const result = await auth.registerUser(mockDto);
+
+        // Assert
+        expect(mockExecuteUseCase).toHaveBeenCalledTimes(1);
+
+        // El usuario debe seguir siendo null porque falló
+        expect(auth.currentUser.value).toBeNull();
+
+        // El error debe haberse guardado en el estado reactivo
+        expect(auth.error.value).toBe(errorMessage);
+
+        // El loading debe volver a apagarse en el bloque finally
+        expect(auth.isLoading.value).toBe(false);
+
+        // No debería haber llamado a la notificación de éxito
+        expect(mockToastAdd).not.toHaveBeenCalled();
+
+        // La función debe retornar null
         expect(result).toBeNull();
-        expect(currentUser.value).toBeNull(); // No se guardó ningún usuario
-        expect(error.value).toBe(errorMessage); // El error se guardó para mostrarlo en la UI
-        expect(isLoading.value).toBe(false); // El bloque finally se ejecutó de todos modos
     });
 });

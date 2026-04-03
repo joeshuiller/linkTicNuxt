@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 // Asegúrate de que esta ruta apunte correctamente a tu archivo
-import { API_URLS } from './urlList';
+import { API_URLS } from '../../../../app/shared/urlList';
 
 describe('API_URLS', () => {
 
