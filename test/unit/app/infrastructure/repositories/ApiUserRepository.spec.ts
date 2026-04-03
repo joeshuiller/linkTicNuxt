@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { ApiUserRepository } from './ApiUserRepository';
+import { ApiUserRepository } from '../../../../../app/infrastructure/repositories/ApiUserRepository';
 import { $fetch } from 'ofetch';
-import { API_URLS } from '../../shared/urlList';
-import type { CreateUserDTO } from '../Dtos/CreateUserDTO';
+import { API_URLS } from '../../../../../app/shared/urlList';
+import type { CreateUserDTO } from '../../../../../app/infrastructure/Dtos/CreateUserDTO';
 
 // 1. Mockeamos $fetch para interceptar la llamada de red
 vi.mock('ofetch', () => ({
@@ -41,7 +41,15 @@ describe('ApiUserRepository', () => {
 
     // TEST 1: El Camino Feliz (Registro exitoso)
     it('debe registrar un usuario, enviar el DTO correcto y devolver la entidad mapeada', async () => {
-        // Arrange: Simulamos lo que devuelve la API al crear un usuario (suele devolver el usuario creado sin contraseña)
+        // Arrange 1: 🚨 Definimos los datos que el usuario enviaría desde el formulario
+        const mockDto = {
+            name: 'Juan Pérez',
+            email: 'juan@correo.com',
+            password: 'password123',
+            avatar: 'https://ejemplo.com/avatar.jpg'
+        };
+
+        // Arrange 2: Simulamos lo que devuelve la API al crear un usuario 
         const mockApiResponse = {
             id: 99,
             name: 'Juan Pérez',
@@ -57,7 +65,7 @@ describe('ApiUserRepository', () => {
 
         // Assert: Verificamos que se hizo un POST a la URL correcta y se le pasó el body (DTO)
         expect($fetch).toHaveBeenCalledTimes(1);
-        expect($fetch).toHaveBeenCalledWith('https://api.fake.com/users', {
+        expect($fetch).toHaveBeenCalledWith('https://api.escuelajs.co/api/v1/users', {
             method: 'POST',
             body: mockDto
         });

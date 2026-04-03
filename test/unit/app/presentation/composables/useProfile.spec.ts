@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ref } from 'vue';
-import type { User } from '~~/app/core/entities/User';
+import type { User } from '../../../../../app/core/entities/User';
 
 // 1. Preparamos nuestras variables simuladas
 const mockExecute = vi.fn();
@@ -25,7 +25,7 @@ vi.mock('#imports', () => ({
 vi.stubGlobal('ref', ref);
 
 // IMPORTANTE: Importamos el composable DESPUÉS de hacer los mocks
-import { useProfile } from './useProfile';
+import { useProfile } from '../../../../../app/presentation/composables/useProfile';
 
 describe('useProfile Composable', () => {
     const mockUser: User = {

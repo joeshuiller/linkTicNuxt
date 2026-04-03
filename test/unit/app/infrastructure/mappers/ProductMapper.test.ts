@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest';
-import { ProductMapper } from './ProductMapper';
-import type { ProductDTO } from '../Dtos/ProductDTO';
+import { describe, test, expect } from 'vitest';
+import { ProductMapper } from '../../../../../app/infrastructure/mappers/ProductMapper';
+import type { ProductDTO } from '../../../../../app/infrastructure/Dtos/ProductDTO';
 
 describe('ProductMapper', () => {
 
     // TEST 1: El Camino Feliz (Datos perfectos)
-    it('debe mapear correctamente un ProductDTO válido a una entidad Product', () => {
+    test('debe mapear correctamente un ProductDTO válido a una entidad Product', () => {
         // Arrange: Preparamos un DTO perfecto tal como lo enviaría una API ideal
         const rawDto: ProductDTO = {
             id: 1,
@@ -25,29 +25,27 @@ describe('ProductMapper', () => {
             ]
         };
 
-        // Act: Ejecutamos el mapeador
-        const result = await ProductMapper.toDomain(rawDto); // Nota: si tu método no es async, quita el 'await'. Tu código es estático y síncrono, así que lo usaremos sin await.
-
-        const resultSync = ProductMapper.toDomain(rawDto);
+        // Act: Ejecutamos el mapeador de forma síncrona
+        const result = ProductMapper.toDomain(rawDto);
 
         // Assert: Verificamos que las propiedades básicas se pasaron correctamente
-        expect(resultSync.id).toBe(rawDto.id);
-        expect(resultSync.title).toBe(rawDto.title);
-        expect(resultSync.slug).toBe(rawDto.slug);
-        expect(resultSync.price).toBe(rawDto.price);
-        expect(resultSync.description).toBe(rawDto.description);
+        expect(result.id).toBe(rawDto.id);
+        expect(result.title).toBe(rawDto.title);
+        expect(result.slug).toBe(rawDto.slug);
+        expect(result.price).toBe(rawDto.price);
+        expect(result.description).toBe(rawDto.description);
 
         // Verificamos que la categoría se mapeó correctamente
-        expect(resultSync.category.id).toBe(rawDto.category.id);
-        expect(resultSync.category.name).toBe(rawDto.category.name);
+        expect(result.category.id).toBe(rawDto.category.id);
+        expect(result.category.name).toBe(rawDto.category.name);
 
         // Verificamos que las imágenes pasaron intactas porque todas son válidas
-        expect(resultSync.images.length).toBe(2);
-        expect(resultSync.images).toEqual(rawDto.images);
+        expect(result.images.length).toBe(2);
+        expect(result.images).toEqual(rawDto.images);
     });
 
     // TEST 2: La regla de negocio de limpieza de imágenes (MUY IMPORTANTE)
-    it('debe limpiar las imágenes corruptas, vacías o que no sean HTTP/HTTPS', () => {
+    test('debe limpiar las imágenes corruptas, vacías o que no sean HTTP/HTTPS', () => {
         // Arrange: Preparamos un DTO con "basura" en el array de imágenes
         const dirtyDto: ProductDTO = {
             id: 2,

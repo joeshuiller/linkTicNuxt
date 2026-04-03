@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { UserMapper } from './UserMapper';
-import type { User } from '../../core/entities/User';
+import { UserMapper } from '../../../../../app/infrastructure/mappers/UserMapper';
+import type { User } from '../../../../../app/core/entities/User';
 
 describe('UserMapper', () => {
 

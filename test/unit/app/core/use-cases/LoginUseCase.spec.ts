@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { LoginUseCase } from './LoginUseCase';
-import type { IAuthRepository } from '../interfaces/IAuthRepository';
-import type { AuthToken } from '../entities/AuthToken';
-import type { LoginDTO } from '../../infrastructure/Dtos/LoginDTO';
+import { LoginUseCase } from '../../../../../app/core/use-cases/LoginUseCase';
+import type { IAuthRepository } from '../../../../../app/core/interfaces/IAuthRepository';
+import type { AuthToken } from '../../../../../app/core/entities/AuthToken';
+import type { LoginDTO } from '../../../../../app/infrastructure/Dtos/LoginDTO';
 
 describe('LoginUseCase', () => {
     let mockAuthRepository: IAuthRepository;

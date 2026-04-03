@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { ApiProductRepository } from './ApiProductRepository';
+import { ApiProductRepository } from '../../../../../app/infrastructure/repositories/ApiProductRepository';
 import { $fetch } from 'ofetch';
-import { API_URLS } from '../../shared/urlList';
-import type { ProductDTO } from '../Dtos/ProductDTO';
+import { API_URLS } from '../../../../../app/shared/urlList';
+import type { ProductDTO } from '../../../../../app/infrastructure/Dtos/ProductDTO';
 
 // 1. Mockeamos la librería 'ofetch' para interceptar $fetch
 vi.mock('ofetch', () => ({
@@ -59,7 +59,7 @@ describe('ApiProductRepository', () => {
 
         // Assert: Verificamos que se llamó a la URL correcta
         expect($fetch).toHaveBeenCalledTimes(1);
-        expect($fetch).toHaveBeenCalledWith('https://api.fake.com/products');
+        expect($fetch).toHaveBeenCalledWith('https://api.escuelajs.co/api/v1/products');
 
         // Assert: Verificamos que los datos se devolvieron mapeados correctamente
         expect(result.length).toBe(1);

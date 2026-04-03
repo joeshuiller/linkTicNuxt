@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ref, computed } from 'vue';
-import type { LoginDTO } from '../../infrastructure/Dtos/LoginDTO';
+import type { LoginDTO } from '../../../../../app/infrastructure/Dtos/LoginDTO';
 
 // 1. Preparamos nuestras variables simuladas
 const mockExecute = vi.fn();
@@ -24,7 +24,7 @@ vi.stubGlobal('ref', ref);
 vi.stubGlobal('computed', computed);
 
 // IMPORTANTE: Importamos el composable DESPUÉS de hacer los mocks de '#imports'
-import { useLogin } from './useLogin';
+import { useLogin } from '../../../../../app/presentation/composables/useLogin';
 
 describe('useLogin Composable', () => {
     const mockCredentials: LoginDTO = {

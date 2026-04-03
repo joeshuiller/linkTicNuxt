@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { CreateUserUseCase } from './CreateUserUseCase'; // Ajusta la ruta si es necesario
-import type { IUserRepository } from '../interfaces/IUserRepository';
-import type { User } from '../entities/User';
-import type { CreateUserDTO } from '../../infrastructure/Dtos/CreateUserDTO';
+import { CreateUserUseCase } from '../../../../../app/core/use-cases/CreateUserUseCase'; // Ajusta la ruta si es necesario
+import type { IUserRepository } from '../../../../../app/core/interfaces/IUserRepository';
+import type { User } from '../../../../../app/core/entities/User';
+import type { CreateUserDTO } from '../../../../../app/infrastructure/Dtos/CreateUserDTO';
 
 describe('CreateUserUseCase', () => {
     // Variables globales para nuestros tests

@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ref } from 'vue';
 // Ajusta la ruta de importación de tu composable
-import { useAuth } from './useAuth';
-import type { CreateUserDTO } from '../../infrastructure/Dtos/CreateUserDTO';
-import type { User } from '../../core/entities/User';
+import { useAuth } from '../../../../../app/presentation/composables/useAuth';
+import type { CreateUserDTO } from '../../../../../app/infrastructure/Dtos/CreateUserDTO';
+import type { User } from '../../../../../app/core/entities/User';
 
 // 1. Mock de la reactividad de Vue (ref)
 // Como Nuxt auto-importa 'ref', en los tests a veces necesitamos declararlo globalmente

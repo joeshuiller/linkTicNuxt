@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { ApiAuthRepository } from './ApiAuthRepository';
+import { ApiAuthRepository } from '../../../../../app/infrastructure/repositories/ApiAuthRepository';
 import { $fetch } from 'ofetch';
-import { API_URLS } from '../../shared/urlList';
-import type { LoginDTO } from '../../infrastructure/Dtos/LoginDTO';
+import { API_URLS } from '../../../../../app/shared/urlList';
+import type { LoginDTO } from '../../../../../app/infrastructure/Dtos/LoginDTO';
 
 // 1. Mockeamos la librería 'ofetch' completa para interceptar $fetch
 vi.mock('ofetch', () => ({
@@ -55,7 +55,7 @@ describe('ApiAuthRepository', () => {
 
             // Assert
             expect($fetch).toHaveBeenCalledTimes(1);
-            expect($fetch).toHaveBeenCalledWith('https://api.fake.com/profile', {
+            expect($fetch).toHaveBeenCalledWith('https://api.escuelajs.co/api/v1/auth/profile', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${mockToken}`
@@ -101,7 +101,7 @@ describe('ApiAuthRepository', () => {
 
             // Assert: Verificamos los parámetros del $fetch
             expect($fetch).toHaveBeenCalledTimes(1);
-            expect($fetch).toHaveBeenCalledWith('https://api.fake.com/login', {
+            expect($fetch).toHaveBeenCalledWith('https://api.escuelajs.co/api/v1/auth/login', {
                 method: 'POST',
                 body: mockCredentials
             });

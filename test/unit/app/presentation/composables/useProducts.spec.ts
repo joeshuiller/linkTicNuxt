@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ref } from 'vue';
-import { useProducts } from './useProducts';
-import type { Product } from '../../core/entities/Product';
+import { useProducts } from '../../../../../app/presentation/composables/useProducts';
+import type { Product } from '../../../../../app/core/entities/Product';
 
 // 1. Mock de la reactividad de Vue
 vi.stubGlobal('ref', ref);

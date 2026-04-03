@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GetProfileUseCase } from './GetProfileUseCase';
-import type { IAuthRepository } from '../interfaces/IAuthRepository';
-import type { User } from '../entities/User';
+import { GetProfileUseCase } from '../../../../../app/core/use-cases/GetProfileUseCase';
+import type { IAuthRepository } from '../../../../../app/core/interfaces/IAuthRepository';
+import type { User } from '../../../../../app/core/entities/User';
 
 describe('GetProfileUseCase', () => {
     let mockAuthRepository: IAuthRepository;

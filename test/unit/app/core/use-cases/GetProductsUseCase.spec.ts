@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GetProductsUseCase } from './GetProductsUseCase';
-import type { IProductRepository } from '../interfaces/IProductRepository';
-import type { Product } from '../entities/Product';
+import { GetProductsUseCase } from '../../../../../app/core/use-cases/GetProductsUseCase';
+import type { IProductRepository } from '../../../../../app/core/interfaces/IProductRepository';
+import type { Product } from '../../../../../app/core/entities/Product';
 
 describe('GetProductsUseCase', () => {
     // Declaramos nuestras variables para usarlas en todos los tests
