@@ -27,7 +27,7 @@ jobs:
 
       # Paso 3: Instalar dependencias exactamente como están en tu package-lock.json
       - name: 📦 Instalar dependencias
-        run: npm ci
+        run: npm install
 
       # Paso 4: (Opcional pero recomendado) Como tienes el módulo @nuxt/eslint instalado,
       # podemos revisar que el código esté limpio. Si no usas eslint, puedes borrar este paso.
